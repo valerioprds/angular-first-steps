@@ -45,8 +45,8 @@ export class GifsService {
 
     this._tagsHistory = JSON.parse(localStorage.getItem('history')!);
 
-    if (this._tagsHistory.length === 0) return
-this.searchTag(this._tagsHistory[0])
+    if (this._tagsHistory.length === 0) return;
+    this.searchTag(this._tagsHistory[0]); // hace una busqueda con la primera posicion de array para asegurarse de que sea la tag mas reciente
   }
 
   searchTag(tag: string): void {
@@ -58,10 +58,12 @@ this.searchTag(this._tagsHistory[0])
       .set('limit', '10')
       .set('q', tag);
 
+    /*.set('q', tag) = Por ejemplo, si llamas al método searchTag('cats'), se realizará una solicitud HTTP a la API de Giphy para buscar gifs relacionados con "cats", ya que el valor de tag es "cats". El parámetro "q" en la solicitud HTTP se establecerá como "cats", lo que indica que se desea buscar gifs relacionados con gatos. */
+
     this.http
-      .get<SearchResponse>(`${this.serviceUrl}/search`, { params })
+      .get<SearchResponse>(`${this.serviceUrl}/search`, { params }) // realiza una solicitud HTTP GET al servicio de Giphy para buscar gifs.
       .subscribe((resp) => {
         this.gifsList = resp.data;
-      });
+      });//subscribe recibe respuesta de solicitud http y la respuesta tiene que ser en formato searchresponse . resp data contiene la lista de gifs
   }
 }
